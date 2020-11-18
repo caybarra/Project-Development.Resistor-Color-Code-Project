@@ -1,0 +1,334 @@
+// ********************************************************************************************************************
+// Project Development: Resistor Color Code Program
+// C. A. Ybarra
+// November 17 2020
+//
+// Purpose: To provide resistor rating information, based on the color code input by user.
+//
+// Requirements:
+//    1. The menu shall contain at least 13 menu items, 12 representing a color and 1 exit item selection..
+//    2. An error response will be generated for invalid entries.
+//    3. Provide correct resistor rating information based on user inputs.
+//
+//	Version 1:  Date: 17 Nov 2020
+//				Modified by: C. A. Ybarra
+//				Modifications: None
+//
+//**********************************************************************************************************************
+
+#include<iostream>
+#include<cmath> 
+
+using namespace std;
+
+// include function prototypes
+void menu(int& choice, int& band1, int& band2, int& band3, int& band4, int& band5, string bandColor);
+void display(int choice, char& decision, int band1, int band2, int band3, int band4, int band5, string& bandColor);
+
+int main()
+{
+	// create variable to save user's choice and decision respectively
+	int choice = 0;
+	char decision = 'y';
+	int band1 = 99;
+	int band2 = 99;
+	int band3 = 99;
+	int band4 = 99;
+	int band5 = 99;
+	string bandColor;
+
+
+	// prompt user for decision to view menu
+	cout << endl << "Open resistor color code menu (Y/N)?" << endl;
+	cin >> decision;
+
+	while (decision != 'N' || decision != 'n')
+	{
+		if (decision == 'Y' || decision == 'y')
+		{
+			menu(choice, band1, band2, band3, band4, band5, bandColor);
+
+			//display(choice, decision); removed for testing
+		}
+
+		else if (decision == 'N' || decision == 'n')
+		{
+			cout << "Exiting program." << endl;
+
+			exit(0);
+		}
+
+		else
+		{
+			//cout << "aDecision = " << decision << endl << endl; // added for testing
+			cout << "Invalid entry." << endl;
+			cout << "Try again." << endl;
+			cout << endl << "Open resistor color code menu (Y/N)?" << endl;
+			cin >> decision;
+
+			menu(choice, band1, band2, band3, band4, band5, bandColor);
+
+			display(choice, decision, band1, band2, band3, band4, band5, bandColor);
+		}
+
+	}
+
+
+	cin.get(); 
+		
+	return 0;
+
+}
+
+
+// function for menu to display menu, and accept user color input for specified resistor band
+void menu(int& choice, int& band1, int& band2, int& band3, int& band4, int& band5, string bandColor)
+{ 
+	int bandCounter = 1;
+	int bandValue1 = 0;
+	int bandValue2 = 0;
+	int bandValue3 = 1;
+	float totalValue = 0;
+	float totalValueReduced = 0;
+	
+	while (bandCounter <= 5)
+	{
+		// create variables to hold the value of first three bands
+		
+
+		//Prompt user to select number corresponding with favorite color
+		cout << endl
+			<< "Enter the number that represents the color of band " << bandCounter << " (0-10):" << endl
+			<< "0 - Black" << endl
+			<< "1 - Brown" << endl
+			<< "2 - Red" << endl
+			<< "3 - Orange" << endl
+			<< "4 - Yellow" << endl
+			<< "5 - Green" << endl
+			<< "6 - Blue" << endl
+			<< "7 - Violet" << endl
+			<< "8 - Gray" << endl
+			<< "9 - White" << endl
+			<< "10 - Silver" << endl
+			<< "11 - Gold" << endl
+			<< "12 - No color" << endl
+			<< "13 - EXIT" << endl;
+			
+
+		// Prompt user for input
+		cout << endl
+			<< "Enter choice here: ";
+
+		//Accept selection from user and store choice in variable.
+		cin >> choice;
+		
+		cout << endl;
+
+		//cout << endl << "Band " << bandCounter << " is: " << bandColor << endl; // added for testing
+		//cout << endl << "Band " << bandCounter << " is: " << choice << endl; // added for testing
+
+
+		if (choice == 13)
+		{
+			cout << "Exiting program. " << endl;
+
+			exit(0);
+		}
+		
+		else if (bandCounter == 1)
+		{
+			bandValue1 = choice * 10;
+
+			//cout << "The value of band 1 is: " << bandValue1 << endl; //included for testing
+
+		}
+
+		else if (bandCounter == 2)
+		{
+			bandValue2 = choice;
+
+			//cout << "The value of band 2 is: " << bandValue2 << endl;  //included for testing
+
+		}
+
+		else if (bandCounter == 3)
+		{
+			bandValue3 = pow(10, choice);
+
+			//cout << "The value of band 3 is: " << bandValue3 << endl;  //included for testing
+
+		}
+		
+		else if (bandCounter == 4)
+		{
+			if (choice == 10)
+			{
+				cout << "Resister Tolerance is +/- 10 %." << endl;
+			}
+
+			else if (choice == 11)
+			{
+				cout << "Resister Tolerance is +/- 5 %." << endl;
+			}
+
+			else if (choice == 12)
+			{
+				cout << "Resister Tolerance is +/- 20 %." << endl;
+			}
+		}
+
+		else if (bandCounter == 5)
+		{
+			if (choice == 1)
+			{
+				cout << "Resister change after 1000 hours of use is +/- 1 %." << endl;
+			}
+
+			if (choice == 2)
+			{
+				cout << "Resister change after 1000 hours of use  is +/- 0.1 %." << endl;
+			}
+
+			else if (choice == 3)
+			{
+				cout << "Resister change after 1000 hours of use  is +/- 0.01 %." << endl;
+			}
+
+			else if (choice == 4)
+			{
+				cout << "Resister change after 1000 hours of use  is +/- 0.001 %." << endl;
+			}
+
+			else if (choice == 12)
+			{
+				cout << "Resister change after 1000 hours of use may be greater than 1 %." << endl;
+			}
+
+		}
+
+		totalValue = (bandValue1 + bandValue2) * bandValue3;
+		
+		//cout << "The pre-counter total value of the resistor is: " << totalValue << endl;  //included for testing
+		
+		bandCounter++;
+
+		cout << "The total value of the resistor is: " << totalValue << " ohms ";  
+		     
+		if (totalValue > 1000)
+		{
+			totalValueReduced = totalValue / 1000;
+
+			cout << "(or " << totalValueReduced << "k ohms)" << endl;
+		}
+																					  
+		cout << endl; // Space added for formatting
+	}
+
+		
+}
+
+// function for display to show results based on user input from menu function.
+void display(int aChoice, char& aDecision, int band1, int band2, int band3, int band4, int band5, string& bandColor)
+{
+	if (aChoice == 10)
+	{
+		cout << "Exiting program. " << endl;
+
+		exit(0);
+
+	}
+
+	else if (aChoice == 0)
+	{
+
+		bandColor = "Black";
+		
+	}
+
+	else if (aChoice == 1)
+	{
+		bandColor = "Brown";
+
+	}
+
+	else if (aChoice == 2)
+	{
+		bandColor = "Red";
+
+	}
+
+	else if (aChoice == 3)
+	{
+		bandColor = "Orange";
+
+	}
+
+	else if (aChoice == 4)
+	{
+		bandColor = "Yellow";
+
+	}
+
+	else if (aChoice == 5)
+	{
+		bandColor = "Green";
+
+	}
+
+	else if (aChoice == 6)
+	{
+		bandColor = "Blue";
+
+	}
+
+	else if (aChoice == 7)
+	{
+		bandColor = "Violet";
+
+	}
+
+	else if (aChoice == 8)
+	{
+		bandColor = "Gray";
+
+	}
+
+	else if (aChoice == 9)
+	{
+		bandColor = "White";
+
+	}
+
+	else if (aChoice == 10)
+	{
+		bandColor = "Silver";
+		//cout << "Resister Tolerance is +/- 10 %." << endl; //included for testing
+	}
+
+	else if (aChoice == 11)
+	{
+		bandColor = "Gold";
+		//cout << "Resister Tolerance is +/- 5 %." << endl; //included for testing
+	}
+
+	else if (aChoice == 12)
+	{
+		bandColor = "None";
+		//cout << "Resister Tolerance is +/- 20 %." << endl; //included for testing
+	}
+
+	//else if (choice <= 0 || choice > 10)
+	else if (aChoice < 0 || aChoice > 10)
+	{
+		cout << "Invalid entry." << endl
+			<< endl;
+
+		menu(aChoice, band1, band2, band3, band4, band5, bandColor); // added for testing
+
+	}
+
+	cout << "Would you like to play again? (Y/N)" << endl << endl;
+	cin >> aDecision;
+
+}
+
